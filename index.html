@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Business Dashboard</title>
+
+    <style>
+        /* Color Variables */
+        :root {
+            --primary-brown: #964B00;
+            --secondary-gray: #F7F7F7;
+            --text-dark: #333;
+            --text-light: #fff;
+            --alert-orange: #ff9900;
+            --border-color: #ddd;
+            --accent-green: #28a745; /* New color for 'Add' button */
+        }
+
+        /* Global Reset and Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            padding: 20px;
+        }
+
+        /* 1. Header and Navigation */
+        header {
+            background-color: var(--primary-brown);
+            color: var(--text-light);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        .grain-icon {
+            font-size: 1.8em;
+            margin-right: 10px;
+            color: var(--alert-orange);
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 15px;
+            padding: 5px 0;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: var(--secondary-gray);
+            border-bottom: 2px solid var(--secondary-gray);
+        }
+
+        /* 2. Hero Section: Key Metrics */
+        .hero-metrics {
+            margin-bottom: 30px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .metric-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary-brown);
+            min-width: 150px;
+        }
+
+        .metric-card p {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .metric-card .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--primary-brown);
+        }
+
+        /* Pending Payments Alert Styling */
+        .metric-card.pending-alert {
+            border-left: 5px solid var(--alert-orange); 
+        }
+
+        .metric-card.pending-alert .value {
+            color: var(--alert-orange);
+        }
+
+        .metric-card.pending-alert .sub-text {
+            display: block;
+            font-size: 0.8em;
+            color: #999;
+        }
+
+        /* Fast Delivery Feature Badge */
+        .metric-card.feature-badge {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .feature-badge .value {
+            font-size: 1.2em;
+        }
+
+        .badge-icon {
+            color: green;
+            margin-left: 5px;
+        }
+
+
+        /* Data Sections (Tables) */
+        .data-section {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Section Header Container for Title and Button */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--secondary-gray);
+            padding-bottom: 5px;
+        }
+
+        .section-header h3 {
+            color: var(--primary-brown);
+            margin: 0;
+        }
+
+        /* Add New Button Styling */
+        .add-btn {
+            background-color: var(--accent-green);
+            color: var(--text-light);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            font-size: 0.9em;
+        }
+
+        .add-btn:hover {
+            background-color: #1e7e34;
+        }
+
+        /* Search and Filters */
+        .search-bar, .filter-controls input, .filter-controls select {
+            padding: 8px 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: 300px;
+            max-width: 100%;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Table Wrapper for Horizontal Scroll */
+        .table-wrapper {
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--secondary-gray);
+            font-weight: bold;
+            color: var(--primary-brown);
+        }
+
+        tr:hover {
+            background-color: #fcfcfc;
+        }
+
+        /* Product Management - Inventory Alert */
+        .low-stock {
+            background-color: #fffbe6;
+        }
+
+        .low-stock-text {
+            color: var(--alert-orange);
+            font-weight: bold;
+        }
+
+        /* General Table Button */
+        button {
+            padding: 6px 12px;
+            background-color: var(--primary-brown);
+            color: var(--text-light);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #793b00; 
+        }
+
+        /* --- MEDIA QUERIES FOR RESPONSIVENESS --- */
+
+        /* Tablet/Medium Screens (max 1024px) */
+        @media (max-width: 1024px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+        }
+
+        /* Mobile/Small Screens (max 600px) */
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            nav {
+                width: 100%;
+                margin-top: 10px;
+                display: block;
+            }
+            nav a {
+                display: block;
+                margin: 5px 0;
+                padding: 5px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .metrics-grid {
+                grid-template-columns: 1fr; 
+            }
+            .dashboard-container {
+                padding: 10px;
+            }
+            .data-section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <span class="grain-icon">&#9679;</span>
+            <span class="brand-name">GrocerHub</span>
+        </div>
+        <nav>
+            <a href="#stores">Stores</a>
+            <a href="#products">Products</a>
+            <a href="#sales">Sales</a>
+            <a href="#payments">Payments</a>
+            <a href="#vendors">Vendors</a>
+        </nav>
+    </header>
+
+    <div class="dashboard-container">
+        <section class="hero-metrics">
+            <h2>Business Overview</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <p>Total Sales (MoM)</p>
+                    <span class="value">$14,500</span>
+                </div>
+                <div class="metric-card">
+                    <p>Total Revenue (YTD)</p>
+                    <span class="value">$185,200</span>
+                </div>
+                <div class="metric-card pending-alert">
+                    <p>Pending Payments</p>
+                    <span class="value">$3,150</span>
+                    <span class="sub-text">7-Day Clearance Term</span>
+                </div>
+                <div class="metric-card feature-badge">
+                    <p>Logistics</p>
+                    <span class="value">Fast Delivery <span class="badge-icon">&#9989;</span></span>
+                </div>
+            </div>
+        </section>
+
+        <main>
+            <section id="stores" class="data-section">
+                <div class="section-header">
+                    <h3>🛒 Store Management</h3>
+                    <button class="add-btn">Add Store &#x2b;</button>
+                </div>
+                <input type="text" placeholder="Search stores..." class="search-bar">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Store Name</th>
+                                <th>Location</th>
+                                <th>Contact Info</th>
+                                <th>Payment Status</th>
+                                <th>Sales Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Central Market</td><td>Downtown</td><td>(555) 1234</td><td>Paid</td><td>$5k</td></tr>
+                            <tr><td>Suburban Grocer</td><td>West Side</td><td>(555) 5678</td><td>Pending</td><td>$3k</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="products" class="data-section">
+                <div class="section-header">
+                    <h3>📦 Product Management</h3>
+                    <button class="add-btn">Add Product &#x2b;</button>
+                </div>
+                <input type="text" placeholder="Search products..." class="search-bar">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Profit Margin</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Rice</td><td>$1.50/lb</td><td>500 kg</td><td>25%</td><td><button>Edit</button></td></tr>
+                            <tr class="low-stock"><td>Toordal</td><td>$2.20/lb</td><td><span class="low-stock-text">35 kg (Low Stock!)</span></td><td>30%</td><td><button>Edit</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="sales" class="data-section">
+                <div class="section-header">
+                    <h3>📈 Sales Tracking</h3>
+                    <button class="add-btn">Add Sale &#x2b;</button>
+                </div>
+                <div class="filter-controls">
+                    <input type="date">
+                    <select><option>Filter by Store</option></select>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Store</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Amount</th>
+                                <th>Payment Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>2025-10-01</td><td>Central Market</td><td>Rice</td><td>100 kg</td><td>$150</td><td>Cleared</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="payments" class="data-section">
+                <div class="section-header">
+                    <h3>💰 Payment Tracking</h3>
+                    <button class="add-btn">Add Payment &#x2b;</button>
+                </div>
+                <input type="text" placeholder="Search payments..." class="search-bar">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Store</th>
+                                <th>Amount</th>
+                                <th>Payment Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>2025-09-25</td><td>Suburban Grocer</td><td>$800</td><td>**Overdue**</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <section id="vendors" class="data-section">
+                <div class="section-header">
+                    <h3>🚚 Vendor Management</h3>
+                    <button class="add-btn">Add Vendor &#x2b;</button>
+                </div>
+                <input type="text" placeholder="Search vendors..." class="search-bar">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Vendor Name</th>
+                                <th>Contact</th>
+                                <th>Last Order Date</th>
+                                <th>Payment Terms</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Agri-Supply Co.</td><td>(555) 9012</td><td>2025-09-15</td><td>Net 30</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

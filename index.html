@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grocery Dashboard - Monolithic Violet V6.1 (Text Muted)</title>
+    <title>Grocery Dashboard - Monolithic Violet V7.0 (Data Separation)</title>
 
     <style>
         /*
@@ -621,7 +621,7 @@
     <header>
         <div class="logo">
             <span class="grain-icon">&#9679;</span>
-            <span class="brand-name">EAN TRADERS [V6.1]</span>
+            <span class="brand-name">EAN TRADERS [V7.0]</span>
         </div>
         <nav>
             <a href="#stores" class="app-nav-link">STORES</a>
@@ -698,7 +698,7 @@
                                 <th>Terminal ID</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="storeTableBody">
                             <tr><td>Central Market</td><td>Downtown, Zone A</td><td>(555) 1234</td><td><span class="success-status-text">PAID</span></td><td>$5,120</td><td>T-101</td></tr>
                             <tr><td>Suburban Grocer</td><td>West Side, Block 3</td><td>(555) 5678</td><td><span style="color: var(--alert-orange);">PENDING</span></td><td>$3,880</td><td>T-102</td></tr>
                             <tr><td>North Hub</td><td>Industrial Park</td><td>(555) 9012</td><td><span class="success-status-text">PAID</span></td><td>$2,400</td><td>T-103</td></tr>
@@ -707,7 +707,7 @@
                             <tr><td>New City Corner</td><td>East Block 5</td><td>(555) 4321</td><td><span class="success-status-text">PAID</span></td><td>$1,200</td><td>T-106</td></tr>
                             <tr><td>Harbor View</td><td>Port District</td><td>(555) 8765</td><td><span style="color: var(--alert-orange);">PENDING</span></td><td>$1,900</td><td>T-107</td></tr>
                             <tr><td>Green Acres</td><td>Rural South</td><td>(555) 5432</td><td><span class="success-status-text">PAID</span></td><td>$850</td><td>T-108</td></tr>
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </section>
@@ -737,7 +737,7 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="salesTableBody">
                             <tr><td>TXN-9087</td><td>2025-10-07 12:45</td><td>Central Market</td><td>10 items</td><td>$150.00</td><td><span class="success-status-text">Completed</span></td></tr>
                             <tr><td>TXN-9086</td><td>2025-10-07 11:30</td><td>Suburban Grocer</td><td>5 items</td><td>$85.50</td><td><span class="success-status-text">Completed</span></td></tr>
                             <tr><td>TXN-9085</td><td>2025-10-06 17:01</td><td>North Hub</td><td>21 items</td><td>$320.00</td><td><span class="success-status-text">Completed</span></td></tr>
@@ -770,7 +770,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="paymentsTableBody">
                             <tr><td>PAY-7001</td><td>2025-09-25</td><td>Suburban Grocer</td><td>$800</td><td><span class="overdue-payment">OVERDUE (12 DAYS)</span></td><td><button class="edit-btn app-button" data-item-name="PAY-7001">MARK PAID</button></td></tr>
                             <tr><td>PAY-7002</td><td>2025-10-15</td><td>Central Market</td><td>$1,500</td><td>Pending</td><td><button class="edit-btn app-button" data-item-name="PAY-7002">EDIT DUE</button></td></tr>
                             <tr><td>PAY-7003</td><td>2025-10-01</td><td>North Hub</td><td>$500</td><td><span class="success-status-text">CLEARED</span></td><td>-</td></tr>
@@ -793,101 +793,107 @@
                         <thead>
                             <tr>
                                 <th>Vendor Name</th>
-                                <th>Contact (Primary)</th>
-                                <th>Last Order Date</th>
+                                <th>Last Order</th>
                                 <th>Payment Terms</th>
-                                <th>Rating</th>
-                                <th>Action</th>
+                                <th>Contact Agent</th>
+                                <th>Current Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr><td>Agri-Supply Co.</td><td>(555) 9012</td><td>2025-09-15</td><td>Net 30</td><td>5/5</td><td><button class="edit-btn app-button" data-item-name="Agri-Supply Co.">ORDER</button></td></tr>
-                            <tr><td>Logistics Prime</td><td>support@lp.com</td><td>2025-10-05</td><td>Net 15</td><td>4/5</td><td><button class="edit-btn app-button" data-item-name="Logistics Prime">VIEW INFO</button></td></tr>
-                            <tr><td>Bulk Commodities</td><td>(555) 0011</td><td>2025-09-01</td><td>Net 45</td><td>4.5/5</td><td><button class="edit-btn app-button" data-item-name="Bulk Commodities">ORDER</button></td></tr>
-                            <tr><td>Global Harvest</td><td>sales@gh.net</td><td>2025-10-01</td><td>Net 30</td><td>4/5</td><td><button class="edit-btn app-button" data-item-name="Global Harvest">ORDER</button></td></tr>
-                            <tr><td>Precision Meats</td><td>(555) 2233</td><td>2025-09-20</td><td>Net 60</td><td>5/5</td><td><button class="edit-btn app-button" data-item-name="Precision Meats">VIEW INFO</button></td></tr>
+                        <tbody id="vendorsTableBody">
+                            <tr><td>Global Grains Inc.</td><td>2025-09-28</td><td>Net 30</td><td>Jane Doe</td><td><span class="success-status-text">Active</span></td></tr>
+                            <tr><td>Agri-Supply Co.</td><td>2025-10-01</td><td>Net 60</td><td>John Smith</td><td>Active</td></tr>
+                            <tr><td>Local Dairy Farm</td><td>2025-10-05</td><td>Net 7</td><td>Mark Johnson</td><td>Active</td></tr>
+                            <tr><td>Packaging Solutions</td><td>2025-09-15</td><td>Net 45</td><td>Sarah Lee</td><td>Inactive</td></tr>
                         </tbody>
                     </table>
                 </div>
             </section>
         </main>
+        
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>SYSTEM INFO</h4>
+                    <p>Version: V7.0 (SEP 2025)</p>
+                    <p>Status: Monitoring All Ports</p>
+                    <p>Last Sync: 12:45 PM IST</p>
+                </div>
+                <div class="footer-col">
+                    <h4>CONTACT LINKS</h4>
+                    <a href="#">Support Terminal</a>
+                    <a href="#">Documentation</a>
+                    <a href="#">API Status</a>
+                </div>
+                <div class="footer-col">
+                    <h4>DATA CENTER</h4>
+                    <p>Location: Zone Gamma 7</p>
+                    <p>Server Load: 15%</p>
+                    <p>Security: Online</p>
+                </div>
+            </div>
+            <p>EAN TRADERS &copy; 2025. ALL RIGHTS RESERVED. DATA ACCESS GRANTED: LVL 4. </p>
+        </footer>
     </div>
-
+    
     <div id="addModal" class="modal">
-      <div class="modal-content">
-        <span class="close-btn" title="Close Modal">&times;</span>
-        <h2 id="modal-title" class="text-neon" style="margin-bottom: 25px;">Add New Item</h2>
-        <form id="addProductForm">
-            <label for="addName" class="text-secondary">Item Name:</label>
-            <input type="text" id="addName" placeholder="Product/Store/Vendor Name" required>
-            <label for="addQuantity" class="text-secondary">Details/Quantity:</label>
-            <input type="text" id="addQuantity" placeholder="Quantity, Location, or Contact Info" required>
-            <button type="submit" class="app-button" style="margin-top: 25px;">Save New Entry</button>
-        </form>
-      </div>
-    </div>
-
-    <div id="editModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" title="Close Modal">&times;</span>
-            <h2 id="edit-modal-title" class="text-neon" style="margin-bottom: 25px;">Edit Item Details</h2>
-            <p class="text-secondary" style="margin-bottom: 20px;">Modify the details of the selected item below. Use caution.</p>
-            <form id="editProductForm">
-                <label for="edit-price" id="edit-field1-label" class="text-secondary">New Price (Numeric, e.g., 1.50):</label>
-                <input type="text" id="edit-price" placeholder="Enter new price">
-                <label for="edit-quantity" id="edit-field2-label" class="text-secondary">New Quantity (Numeric, e.g., 500):</label>
-                <input type="text" id="edit-quantity" placeholder="Enter new quantity">
-                <button type="submit" class="app-button" style="margin-top: 25px;">UPDATE ENTRY</button>
+            <span class="close-btn">&times;</span>
+            <h3 class="text-neon" id="modal-title">ADD NEW ITEM</h3>
+            <form id="addProductForm">
+                <label for="addName" class="text-violet">Name/ID:</label>
+                <input type="text" id="addName" required placeholder="Enter Name/ID based on section">
+                
+                <label for="addQuantity" class="text-violet">Detail/Quantity:</label>
+                <input type="text" id="addQuantity" required placeholder="Enter Quantity/Location/Amount">
+                
+                <button type="submit" class="app-button mt-15">SAVE TO DATABASE</button>
             </form>
         </div>
     </div>
     
-    <div id="confirmModal" class="modal">
-        <div class="modal-content" style="text-align: center;">
-            <span class="close-btn" title="Close Modal">&times;</span>
-            <h2 class="text-alert" style="margin-bottom: 15px;">⚠️ CRITICAL CONFIRMATION</h2>
-            <p id="confirmMessage" class="text-light" style="margin-bottom: 30px;">Are you absolutely sure you want to delete this item? This action cannot be reversed and will require manual database restore.</p>
-            <button id="confirmDeleteBtn" class="app-button" style="margin-right: 15px;">YES, DELETE (IRREVERSIBLE)</button>
-            <button id="cancelDeleteBtn" class="app-button edit-btn">CANCEL</button>
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 class="text-neon" id="edit-modal-title">EDIT PRODUCT</h3>
+            <form id="editProductForm">
+                <label for="edit-price" class="text-violet" id="edit-field1-label">Price/Value:</label>
+                <input type="text" id="edit-price" required>
+                
+                <label for="edit-quantity" class="text-violet" id="edit-field2-label">Quantity/Detail:</label>
+                <input type="text" id="edit-quantity" required>
+                
+                <button type="submit" class="app-button mt-15">APPLY CHANGES</button>
+            </form>
         </div>
     </div>
-    
-    <div id="notification"></div>
 
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>ADMIN ACCESS</h4>
-                <p>User: SysOp_EAN (Active)</p>
-                <p>Level: Full R/W (Root)</p>
-                <a href="#">Change Credentials</a>
-                <a href="#">Audit Log (Local)</a>
-            </div>
-            <div class="footer-col">
-                <h4>SYSTEM STATUS</h4>
-                <p>Server: Operational (Latency: 15ms)</p>
-                <p>Database: Synced (Last Check: 13:13 IST)</p>
-                <a href="#">Run Diagnostics</a>
-                <a href="#">View Maintenance Schedule</a>
-            </div>
-            <div class="footer-col">
-                <h4>SUPPORT & LICENSING</h4>
-                <p>Contact: SysAdmin@eantraders.com</p>
-                <p>Version: 6.1-Muted (Stable)</p>
-                <a href="#">Open Support Ticket</a>
-                <a href="#">Knowledge Base</a>
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 class="text-alert">CONFIRM ACTION</h3>
+            <p id="confirmMessage" class="mt-15" style="color: var(--text-light);"></p>
+            <div style="display: flex; justify-content: space-around; margin-top: 30px;">
+                <button id="confirmDeleteBtn" class="app-button" style="background-color: var(--alert-red); color: var(--text-light);">CONFIRM DELETE</button>
+                <button id="cancelDeleteBtn" class="app-button" style="background-color: var(--secondary-dark); border: 2px solid var(--text-secondary); color: var(--text-secondary);">CANCEL</button>
             </div>
         </div>
-        <p>&copy; 2025 EAN Traders. All system rights reserved. DATA INTEGRITY IS PRIORITY. ACCESS LOGGED.</p>
-    </footer>
+    </div>
+
+    <div id="notification"></div>
+
 
     <script>
         // --- 1. GLOBAL DATA & ELEMENTS ---
-        // This array holds the editable product data.
+        // NEW: Separate data arrays for each section
         let products = [];
-        let editingProductName = null;
+        let stores = [];
+        let sales = [];
+        let payments = [];
+        let vendors = [];
+        
+        let editingItemName = null;
         let itemToDeleteName = null;
-        let activeSection = null; // Tracks which section triggered the Add Modal
+        let activeSection = null; 
 
         // DOM Element References (Cached for Performance)
         const addModal = document.getElementById("addModal");
@@ -906,7 +912,14 @@
         const addProductForm = document.getElementById("addProductForm");
         const addNameInput = document.getElementById("addName");
         const addQuantityInput = document.getElementById("addQuantity");
+        
+        // Table Body References (NEW)
         const productTableBody = document.getElementById("productTableBody");
+        // IMPORTANT: We use the actual IDs for the other table bodies now
+        const storeTableBody = document.querySelector("#stores tbody"); 
+        const salesTableBody = document.querySelector("#sales tbody"); 
+        const paymentsTableBody = document.querySelector("#payments tbody"); 
+        const vendorsTableBody = document.querySelector("#vendors tbody"); 
         
         // Edit Form Elements
         const editProductForm = document.getElementById("editProductForm");
@@ -915,21 +928,36 @@
         const editField1Input = document.getElementById("edit-price");
         const editField2Input = document.getElementById("edit-quantity");
         
-        // Local Storage Key (Unique for this version)
-        const STORAGE_KEY = 'groceryDashboardProducts_V6';
+        // NEW: Storage Keys for all arrays
+        const STORAGE_KEYS = {
+            products: 'groceryDashboardProducts_V7',
+            stores: 'groceryDashboardStores_V7',
+            sales: 'groceryDashboardSales_V7',
+            payments: 'groceryDashboardPayments_V7',
+            vendors: 'groceryDashboardVendors_V7'
+        };
         let notificationTimeout;
+        
+        // Helper to get the correct array and key based on section name
+        function getDataContext(section) {
+            switch(section) {
+                case 'products': return { array: products, key: STORAGE_KEYS.products, tbody: productTableBody, itemType: 'product', hasActions: true };
+                case 'stores': return { array: stores, key: STORAGE_KEYS.stores, tbody: storeTableBody, itemType: 'store', hasActions: false };
+                case 'sales': return { array: sales, key: STORAGE_KEYS.sales, tbody: salesTableBody, itemType: 'sale', hasActions: false };
+                case 'payments': return { array: payments, key: STORAGE_KEYS.payments, tbody: paymentsTableBody, itemType: 'payment', hasActions: false };
+                case 'vendors': return { array: vendors, key: STORAGE_KEYS.vendors, tbody: vendorsTableBody, itemType: 'vendor', hasActions: false };
+                default: return null;
+            }
+        }
 
         // --- 2. NOTIFICATION HANDLER ---
-        /** Shows a custom toast notification with a specific color theme. */
         function showNotification(message, type = 'success') {
             clearTimeout(notificationTimeout);
             
             notification.textContent = message;
-            // Reset classes and apply new one
             notification.className = '';
             notification.classList.add('show', type);
             
-            // Explicit style manipulation for animation trigger
             notification.style.opacity = '1';
             notification.style.visibility = 'visible';
 
@@ -940,74 +968,122 @@
         }
 
         // --- 3. LOCAL STORAGE MANAGEMENT (Persistence) ---
-        
+        // Helper function to load data from Local Storage
+        function loadDataFromStorage(key) {
+            const storedData = localStorage.getItem(key);
+            return storedData ? JSON.parse(storedData) : [];
+        }
+
         function loadData() {
-            const storedData = localStorage.getItem(STORAGE_KEY);
-            if (storedData) {
-                products = JSON.parse(storedData);
-            } else {
-                // Initial default product data set
-                products = [
-                    { name: "Rice (Basmati)", price: "$1.50/lb", quantity: "500 kg", margin: "25%", lowStock: false },
-                    { name: "Toordal (Yellow)", price: "$2.20/lb", quantity: "35 kg (Low Stock!)", margin: "30%", lowStock: true },
-                    { name: "Oil (Palm)", price: "$0.80/lb", quantity: "1200 liters", margin: "15%", lowStock: false },
-                    { name: "Sugar (White)", price: "$0.50/lb", quantity: "45 kg (Low Stock!)", margin: "10%", lowStock: true }
-                ];
+            // Load dynamic data from storage
+            products = loadDataFromStorage(STORAGE_KEYS.products);
+            stores = loadDataFromStorage(STORAGE_KEYS.stores);
+            sales = loadDataFromStorage(STORAGE_KEYS.sales);
+            payments = loadDataFromStorage(STORAGE_KEYS.payments);
+            vendors = loadDataFromStorage(STORAGE_KEYS.vendors);
+
+            // Set default hardcoded data for sections if their dynamic array is empty
+            if (stores.length === 0) {
+                 // For stores, we keep the dynamic list clean, the initial table is hardcoded in HTML
             }
-            renderProductTable();
+            // For other sections, no default data injection needed, as hardcoded rows are in HTML.
+
+            renderAllTables();
         }
 
-        function saveData() {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
-            } catch (e) {
-                console.error("Error saving to local storage:", e);
-                showNotification("Error: Could not save data to local storage.", 'error');
+        function saveData(section) {
+            const context = getDataContext(section);
+            if (context) {
+                 try {
+                    localStorage.setItem(context.key, JSON.stringify(context.array));
+                } catch (e) {
+                    console.error("Error saving to local storage:", e);
+                    showNotification(`Error: Could not save ${section} data to local storage.`, 'error');
+                }
             }
         }
         
-        // --- 4. RENDERING (HTML Generation) ---
+        function generateUniqueId(prefix) {
+            return prefix + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+        }
 
+        // --- 4. RENDERING FUNCTIONS (Five dedicated functions) ---
+        
         function renderProductTable() {
             let html = '';
-            
             products.forEach(product => {
-                const quantityString = product.quantity || "";
-                
-                // Logic to determine if stock is low for styling
-                const isLowStock = quantityString.includes("Low Stock") || (!isNaN(parseFloat(quantityString)) && parseFloat(quantityString.replace(/[^\d.]/g, '')) < 50 && product.price !== "N/A");
+                const isLowStock = product.lowStock || (parseFloat(product.quantity.match(/[\d.]+/)) < 50);
                 const lowStockClass = isLowStock ? 'low-stock' : '';
-                
-                let quantityText = quantityString;
-                if (isLowStock && !quantityString.includes('(Low Stock!)')) {
-                    quantityText = `<span class="low-stock-text">${quantityString} (Low Stock!)</span>`;
-                } else if (isLowStock && product.price !== "N/A") {
-                     quantityText = `<span class="low-stock-text">${quantityString}</span>`;
-                }
-
-                // Check if the entry is a 'simulated' one added from another section (like [STORES])
-                const isSimulatedEntry = product.price === "N/A" || (product.name.includes('[') && product.name.includes(']'));
-                
-                // Only show EDIT and DELETE buttons for actual products (or show generic EDIT INFO for others)
-                const actionButtons = isSimulatedEntry ? 
-                    `<button class="edit-btn app-button" data-item-name="${product.name}">EDIT INFO</button>` :
-                    `<button class="edit-btn app-button" data-item-name="${product.name}">EDIT</button>
-                    <button class="delete-btn app-button" data-item-name="${product.name}">DELETE</button>`;
-
+                const quantityText = isLowStock 
+                    ? `<span class="low-stock-text">${product.quantity} (Low Stock!)</span>`
+                    : product.quantity;
                 
                 html += `
-                    <tr class="${lowStockClass}">
+                    <tr class="${lowStockClass}" data-id="${product.id}">
                         <td>${product.name}</td>
                         <td>${product.price}</td>
                         <td>${quantityText}</td>
                         <td>${product.margin}</td>
-                        <td>${actionButtons}</td>
+                        <td>
+                            <button class="edit-btn app-button" data-id="${product.id}" data-section="products">EDIT</button>
+                            <button class="delete-btn app-button" data-id="${product.id}" data-section="products">DELETE</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            productTableBody.innerHTML = html;
+        }
+
+        function renderStoreTable() {
+            const defaultRows = document.querySelectorAll('#stores tbody tr');
+            const defaultRowCount = defaultRows.length;
+
+            // Remove all dynamically added rows first
+            for (let i = defaultRowCount - 1; i >= 0; i--) {
+                if (!defaultRows[i].hasAttribute('data-id')) { // Only remove rows without a data-id (i.e. dynamic ones)
+                     defaultRows[i].remove();
+                }
+            }
+            
+            let html = '';
+            stores.forEach(store => {
+                const statusClass = store.paymentStatus === 'PENDING' 
+                    ? 'style="color: var(--alert-orange);"' 
+                    : 'class="success-status-text"';
+                
+                html += `
+                    <tr data-id="${store.id}">
+                        <td>${store.name}</td>
+                        <td>${store.location}</td>
+                        <td>${store.contact}</td>
+                        <td><span ${statusClass}>${store.paymentStatus}</span></td>
+                        <td>${store.sales || '$0'}</td>
+                        <td>${store.id}</td>
                     </tr>
                 `;
             });
             
-            productTableBody.innerHTML = html;
-            attachActionListeners();
+            // Append new dynamic HTML after the default rows
+            storeTableBody.insertAdjacentHTML('beforeend', html);
+        }
+        
+        // Stubs for other render functions (They currently don't render dynamic data)
+        function renderSalesTable() {
+            // Future logic to render dynamic sales data here
+        }
+        function renderPaymentsTable() {
+            // Future logic to render dynamic payments data here
+        }
+        function renderVendorsTable() {
+            // Future logic to render dynamic vendors data here
+        }
+        
+        function renderAllTables() {
+            renderProductTable();
+            renderStoreTable();
+            renderSalesTable();
+            renderPaymentsTable();
+            renderVendorsTable();
         }
 
         // --- 5. CORE MODAL FUNCTIONS ---
@@ -1019,10 +1095,9 @@
             if (addProductForm) {
                 addProductForm.reset();
             }
-            editingProductName = null;
+            editingItemName = null;
             itemToDeleteName = null;
             activeSection = null;
-            // Ensure inputs are re-enabled upon closing
             editField1Input.disabled = false;
             editField2Input.disabled = false;
         }
@@ -1037,7 +1112,7 @@
             
             modalTitle.textContent = buttonText;
             
-            // Dynamic placeholder logic based on the section
+            // Adjust placeholders based on the active section
             switch (sectionName) {
                 case "products":
                     addNameInput.placeholder = "Product Name (e.g., Basmati Rice)";
@@ -1045,87 +1120,76 @@
                     break;
                 case "stores":
                     addNameInput.placeholder = "Store Name (e.g., QuickStop)";
-                    addQuantityInput.placeholder = "Location (e.g., West Side)";
+                    addQuantityInput.placeholder = "Location (e.g., West Side)"; 
                     break;
                 case "sales":
-                    addNameInput.placeholder = "Order ID/Product Name";
-                    addQuantityInput.placeholder = "Sale Amount (e.g., $150)";
+                    addNameInput.placeholder = "Transaction ID (e.g., TXN-9090)";
+                    addQuantityInput.placeholder = "Total Amount (e.g., $150)";
                     break;
                 case "payments":
-                    addNameInput.placeholder = "Payer/Store Name";
-                    addQuantityInput.placeholder = "Payment Amount (e.g., $800)";
+                    addNameInput.placeholder = "Payment ID (e.g., PAY-7007)";
+                    addQuantityInput.placeholder = "Amount Due (e.g., $800)";
                     break;
                 case "vendors":
-                    addNameInput.placeholder = "Vendor Name (e.g., Agri-Supply)";
-                    addQuantityInput.placeholder = "Contact Info/Terms";
-                    break;
-                default:
-                    addNameInput.placeholder = "Item Name";
-                    addQuantityInput.placeholder = "Item Details";
+                    addNameInput.placeholder = "Vendor Name (e.g., Global Foods)";
+                    addQuantityInput.placeholder = "Payment Terms (e.g., Net 30)";
                     break;
             }
 
             addModal.style.display = "block";
         }
 
+        // openEditModal is now PRODUCT-SPECIFIC only
         function openEditModal(event) {
             const button = event.currentTarget;
-            const itemName = button.getAttribute('data-item-name');
-            editingProductName = itemName;
-            const productToEdit = products.find(p => p.name === itemName);
+            const itemId = button.getAttribute('data-id'); 
+            editingItemName = itemId;
+            const productToEdit = products.find(p => p.id === itemId);
 
             if (!productToEdit) {
-                 showNotification(`Error: Item ${itemName} not found in the editable list.`, 'error');
+                 showNotification(`Error: Item ID ${itemId} not found.`, 'error');
                  return;
             }
 
-            editModalTitle.textContent = `EDIT DETAILS: ${itemName.toUpperCase()}`;
+            editModalTitle.textContent = `EDIT PRODUCT: ${productToEdit.name.toUpperCase()}`;
             
-            // Check for simulated entries (tagged with [SECTION] or price is N/A)
-            const isSimulatedEntry = productToEdit.price === "N/A" || (itemName.includes('[') && itemName.includes(']'));
+            editField1Label.textContent = "New Price (Numeric, e.g., 1.50):";
+            editField2Label.textContent = "New Quantity (Numeric, e.g., 500):";
+
+            const priceMatch = productToEdit.price.match(/[\d.]+/);
+            const quantityMatch = productToEdit.quantity.match(/[\d.]+/);
             
-            if (isSimulatedEntry) {
-                editField1Label.textContent = "Field 1 (N/A):";
-                editField2Label.textContent = "New Detail/Contact:";
-                
-                // Set appropriate label based on section tag
-                if (itemName.includes('[STORES]')) {
-                    editField2Label.textContent = "New Location/Contact:";
-                } else if (itemName.includes('[VENDORS]')) {
-                    editField2Label.textContent = "New Contact Info/Terms:";
-                } else if (itemName.includes('[PAYMENTS]') || itemName.includes('[SALES]')) {
-                    editField2Label.textContent = "New Amount/Details:";
-                }
-
-                editField1Input.value = 'N/A';
-                editField1Input.disabled = true;
-                
-                // Clean up the quantity text for the input field
-                const existingDetail = productToEdit.quantity.replace(/ \(.*/, '').trim();
-                editField2Input.value = existingDetail;
-                editField2Input.disabled = false;
-                editField2Input.placeholder = `Update the detail for ${itemName}`;
-
-            } else {
-                editField1Label.textContent = "New Price (Numeric, e.g., 1.50):";
-                editField2Label.textContent = "New Quantity (Numeric, e.g., 500):";
-
-                // Extract only numbers/decimals
-                const priceMatch = productToEdit.price.match(/[\d.]+/);
-                const quantityMatch = productToEdit.quantity.match(/[\d.]+/);
-                
-                const priceValue = priceMatch ? priceMatch[0] : '';
-                const quantityValue = quantityMatch ? quantityMatch[0] : '';
-                
-                editField1Input.value = priceValue;
-                editField2Input.value = quantityValue;
-                editField1Input.disabled = false;
-                editField2Input.disabled = false;
-                editField2Input.placeholder = "Enter new quantity";
-            }
+            const priceValue = priceMatch ? priceMatch[0] : '';
+            const quantityValue = quantityMatch ? quantityMatch[0] : '';
+            
+            editField1Input.value = priceValue;
+            editField2Input.value = quantityValue;
+            editField1Input.disabled = false;
+            editField2Input.disabled = false;
+            editField2Input.placeholder = "Enter new quantity";
             
             editModal.style.display = "block";
         }
+        
+        function openConfirmDeleteModal(event) {
+            const itemId = event.currentTarget.getAttribute('data-id');
+            const section = event.currentTarget.getAttribute('data-section');
+            const context = getDataContext(section);
+            
+            if (!context) return;
+            
+            const item = context.array.find(i => i.id === itemId);
+            if (!item) {
+                 showNotification(`Error: Item ID ${itemId} not found for deletion.`, 'error');
+                 return;
+            }
+            
+            itemToDeleteName = itemId;
+            confirmMessage.innerHTML = `Are you absolutely sure you want to delete **${item.name}**? This action cannot be reversed.`;
+            confirmDeleteBtn.setAttribute('data-section', section);
+            confirmModal.style.display = "block";
+        }
+
 
         // --- 6. DOM & DATA MANIPULATION (CRUD Operations) ---
 
@@ -1133,106 +1197,137 @@
             event.preventDefault();
             
             const name = addNameInput.value.trim();
-            const quantity = addQuantityInput.value.trim();
+            const detail = addQuantityInput.value.trim(); 
             
-            if (!name || !quantity) {
-                showNotification("Input Error: Please enter both Item Name and Details/Quantity.", 'warning');
+            if (!name || !detail) {
+                showNotification("Input Error: Please enter both required fields.", 'warning');
                 return;
             }
-
-            let newEntryName = name;
-            let newEntryQuantity = quantity;
-            let price = "$1.00/unit";
-            let margin = "20%";
-
-            // If adding from a non-product section, tag the name and use default placeholders
-            if (activeSection !== "products") {
-                 newEntryName = `[${activeSection.toUpperCase()}] ${name}`;
-                 price = "N/A";
-                 margin = "N/A";
-            } else {
-                 newEntryQuantity = quantity;
+            
+            const context = getDataContext(activeSection);
+            if (!context) return;
+            
+            let newItem = {};
+            
+            // --- Creation Logic based on Section ---
+            if (activeSection === 'products') {
+                 // Name: Product Name, Detail: Quantity
+                 const quantityNum = parseFloat(detail.match(/[\d.]+/)) || 0;
+                 newItem = {
+                     id: generateUniqueId('PROD'),
+                     name: name,
+                     price: "$1.00/lb", 
+                     quantity: `${quantityNum} kg`,
+                     margin: "20%",
+                     lowStock: quantityNum < 50
+                 };
+            } else if (activeSection === 'stores') {
+                 // Name: Store Name, Detail: Location
+                 newItem = {
+                     id: generateUniqueId('T'),
+                     name: name,
+                     location: detail,
+                     contact: '(555) XXXX',
+                     paymentStatus: 'PENDING',
+                     sales: '$0',
+                     dynamic: true
+                 };
+            } else if (activeSection === 'sales') {
+                 // Name: Transaction ID, Detail: Amount
+                 const amount = detail.startsWith('$') ? detail : `$${parseFloat(detail).toFixed(2)}`;
+                 newItem = {
+                     id: name,
+                     dateTime: new Date().toISOString().slice(0, 10) + ' ' + new Date().toLocaleTimeString(),
+                     store: 'New Entry',
+                     items: 'N/A',
+                     totalAmount: amount,
+                     status: 'Pending',
+                     dynamic: true
+                 };
+            } else if (activeSection === 'payments') {
+                 // Name: Payment ID, Detail: Amount Due
+                 const amountDue = detail.startsWith('$') ? detail : `$${parseFloat(detail).toFixed(2)}`;
+                 newItem = {
+                     id: name,
+                     dateDue: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10), // 7 days from now
+                     store: 'New Client',
+                     amountDue: amountDue,
+                     paymentStatus: 'Pending',
+                     dynamic: true
+                 };
+            } else if (activeSection === 'vendors') {
+                 // Name: Vendor Name, Detail: Payment Terms
+                 newItem = {
+                     id: generateUniqueId('V'),
+                     name: name,
+                     lastOrder: new Date().toISOString().slice(0, 10),
+                     paymentTerms: detail,
+                     contactAgent: 'New Agent',
+                     currentStatus: 'Active',
+                     dynamic: true
+                 };
             }
+            
+            // Add item to the correct array, save, and re-render the specific table
+            context.array.push(newItem);
+            saveData(activeSection);
+            renderAllTables(); 
+            showNotification(`✅ New ${context.itemType.toUpperCase()} Added!`, 'success');
 
-            const newProduct = {
-                name: newEntryName,
-                price: price,
-                quantity: newEntryQuantity,
-                margin: margin,
-                lowStock: false
-            };
-
-            products.push(newProduct);
-            saveData();
-            renderProductTable();
             closeModal();
-            showNotification(`✅ Entry Added to Product Matrix: ${name}!`, 'success');
         }
 
+        // NOTE: updateProduct is now specifically for the 'products' array
         function updateProduct(event) {
             event.preventDefault();
 
             const field1Value = editField1Input.value.trim();
             const field2Value = editField2Input.value.trim();
 
-            if (editField2Input.disabled === false && !field2Value) {
-                showNotification("Input Error: Detail field cannot be empty for update.", 'warning');
-                return;
-            }
-
-            const index = products.findIndex(p => p.name === editingProductName);
+            const index = products.findIndex(p => p.id === editingItemName);
             if (index === -1) {
-                showNotification("System Error: Item not found for update.", 'error');
+                showNotification("System Error: Product ID not found for update.", 'error');
                 closeModal();
                 return;
             }
 
             const product = products[index];
-            const isSimulatedEntry = product.price === "N/A" || product.name.includes('['); 
+            
+            const newPrice = parseFloat(field1Value);
+            const newQuantity = parseFloat(parseFloat(field2Value).toFixed(0));
 
-            if (isSimulatedEntry) {
-                // Update quantity/detail for simulated entry
-                product.quantity = field2Value;
-            } else {
-                // Update price and quantity for actual product
-                const newPrice = parseFloat(field1Value);
-                // Ensure quantity is an integer kg amount
-                const newQuantity = parseFloat(parseFloat(field2Value).toFixed(0));
-
-                if (isNaN(newPrice) || isNaN(newQuantity) || newPrice <= 0 || newQuantity < 0) {
-                    showNotification("Invalid input: Price must be numeric > 0. Quantity must be numeric >= 0.", 'error');
-                    return;
-                }
-
-                product.price = `$${newPrice.toFixed(2)}/lb`;
-                product.quantity = `${newQuantity} kg`;
-                product.lowStock = newQuantity < 50; 
+            if (isNaN(newPrice) || isNaN(newQuantity) || newPrice <= 0 || newQuantity < 0) {
+                showNotification("Invalid input: Price must be numeric > 0. Quantity must be numeric >= 0.", 'error');
+                return;
             }
 
+            product.price = `$${newPrice.toFixed(2)}/lb`;
+            product.quantity = `${newQuantity} kg`;
+            product.lowStock = newQuantity < 50; 
+
             products[index] = product;
-            saveData();
+            saveData('products');
             renderProductTable();
             closeModal();
-            showNotification(`✨ ${editingProductName.toUpperCase()} UPDATED SUCCESSFULLY!`, 'success');
+            showNotification(`✨ ${product.name.toUpperCase()} UPDATED SUCCESSFULLY!`, 'success');
         }
 
-        function openConfirmDeleteModal(event) {
-            itemToDeleteName = event.currentTarget.getAttribute('data-item-name');
-            confirmMessage.innerHTML = `Are you absolutely sure you want to delete **${itemToDeleteName}**? This action cannot be reversed.`;
-            confirmModal.style.display = "block";
-        }
-
-        function deleteProduct() {
+        function deleteItem() {
             if (!itemToDeleteName) return;
+            
+            const section = confirmDeleteBtn.getAttribute('data-section');
+            const context = getDataContext(section);
+            if (!context) return;
+            
+            const initialLength = context.array.length;
+            
+            // Filter out the item to delete by ID
+            context.array = context.array.filter(i => i.id !== itemToDeleteName);
 
-            const initialLength = products.length;
-            // Filter out the item to delete
-            products = products.filter(p => p.name !== itemToDeleteName);
-
-            if (products.length < initialLength) {
-                saveData();
-                renderProductTable();
-                showNotification(`🗑️ DELETED ENTRY: ${itemToDeleteName}.`, 'warning');
+            if (context.array.length < initialLength) {
+                saveData(section);
+                renderAllTables(); // Re-render all tables to update the display
+                showNotification(`🗑️ DELETED ENTRY from ${section.toUpperCase()}.`, 'warning');
             } else {
                 showNotification("Error: Item specified for deletion was not found.", 'error');
             }
@@ -1241,29 +1336,34 @@
         }
 
 
-        // --- 7. EVENT LISTENERS SETUP ---
+        // --- 7. EVENT DELEGATION HANDLER ---
+        function handleTableAction(event) {
+            const target = event.target;
+            const button = target.closest('button');
+            if (!button) return;
 
-        function attachActionListeners() {
-            // Attach Edit listeners
-            document.querySelectorAll('.edit-btn').forEach(button => {
-                button.removeEventListener('click', openEditModal); 
-                button.addEventListener('click', openEditModal);
-            });
-            // Attach Delete listeners 
-            document.querySelectorAll('.delete-btn').forEach(button => {
-                const itemName = button.getAttribute('data-item-name');
-                const product = products.find(p => p.name === itemName);
+            const section = button.getAttribute('data-section');
+            
+            // Safety check: Only allow actions on the fully implemented 'products' section for now
+            if (section !== 'products') {
+                showNotification(`Action disabled. Full dynamic EDIT/DELETE is currently only supported in the Product Matrix.`, 'warning');
+                return;
+            }
 
-                // Only attach delete event to non-simulated entries
-                if (product && !product.name.includes('[')) { 
-                    button.removeEventListener('click', openConfirmDeleteModal);
-                    button.addEventListener('click', openConfirmDeleteModal);
-                }
-            });
+            if (button.classList.contains('edit-btn')) {
+                openEditModal({ currentTarget: button });
+            } else if (button.classList.contains('delete-btn')) {
+                openConfirmDeleteModal({ currentTarget: button }); 
+            }
         }
 
-        // Global Listeners for Initial Load and Clicks
+
+        // --- 8. INITIALIZATION ---
+
         document.addEventListener('DOMContentLoaded', loadData);
+
+        // Attaches once to the productTableBody
+        productTableBody.addEventListener('click', handleTableAction); 
 
         // Add Modal Trigger
         addButtons.forEach(button => {
@@ -1275,7 +1375,6 @@
             btn.addEventListener('click', closeModal);
         });
         window.onclick = function(event) {
-            // Closes modal if user clicks outside of the content area
             if (event.target.classList.contains('modal')) {
                 closeModal();
             }
@@ -1283,10 +1382,12 @@
 
         // Form Submission Handlers
         addProductForm.addEventListener('submit', handleAddSubmission);
-        editProductForm.addEventListener('submit', updateProduct);
         
-        // Confirmation Modal Handlers
-        confirmDeleteBtn.addEventListener('click', deleteProduct);
+        // Product Edit Form Submission Handler
+        editProductForm.addEventListener('submit', updateProduct); 
+        
+        // Confirmation Modal Handler
+        confirmDeleteBtn.addEventListener('click', deleteItem);
         cancelDeleteBtn.addEventListener('click', closeModal);
         
         // --- END JAVASCRIPT ---
